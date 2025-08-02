@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>아기 크몽이 키우기</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background: #d5ebfc;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 24px;
+    }
+    .level {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .progress {
+      width: 80%;
+      height: 20px;
+      background: #e0e0e0;
+      border-radius: 10px;
+      margin: 0 auto 20px;
+      overflow: hidden;
+    }
+    .bar {
+      height: 100%;
+      background: linear-gradient(to right, #a288f4, #9ee3f9);
+      width: 30%;
+    }
+    .image {
+      position: relative;
+      width: 750px;
+      margin: 0 auto 20px;
+    }
+    .image img {
+      width: 100%;
+    }
+    .hotspot {
+      position: absolute;
+      cursor: pointer;
+      opacity: 0.2;
+      background-color: rgba(255, 255, 0, 0.3);
+      transition: opacity 0.2s;
+    }
+    .hotspot:hover {
+      opacity: 0.5;
+    }
+    .sparkle {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(rgba(255, 255, 255, 0.9), rgba(255,255,255,0));
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkle 0.8s ease-out forwards;
+      z-index: 100;
+    }
+    @keyframes sparkle {
+      0% {
+        transform: scale(0.5);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2.5);
+        opacity: 0;
+      }
+    }
+    #feedZone {
+      top: 90%;
+      left: 10%;
+      width: 20%;
+      height: 10%;
+    }
+    #playZone {
+      top: 90%;
+      left: 40%;
+      width: 20%;
+      height: 10%;
+    }
+    #missionZone {
+      top: 90%;
+      left: 70%;
+      width: 20%;
+      height: 10%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Level <span id="level">1</span></h1>
+  <div class="progress">
+    <div class="bar" id="expBar"></div>
+  </div>
+  <div class="image" id="imageContainer">
+    <img src="https://i.imgur.com/IOFDXNx.png" alt="아기 크몽이">
+    <div class="hotspot" id="feedZone" onclick="triggerSparkle(event); gainExp(10)"></div>
+    <div class="hotspot" id="playZone" onclick="triggerSparkle(event); gainExp(15)"></div>
+    <div class="hotspot" id="missionZone" onclick="triggerSparkle(event); completeMission()"></div>
+  </div>
+
+  <script>
+    let level = 1;
+    let exp = 30;
+    const maxExp = 100;
+
+    function updateUI() {
+      document.getElementById('expBar').style.width = exp + '%';
+      document.getElementById('level').innerText = level;
+    }
+
+    function gainExp(amount) {
+      exp += amount;
+      if (exp >= maxExp) {
+        exp = exp - maxExp;
+        level++;
+        alert('레벨 업! 현재 레벨: ' + level);
+      }
+      updateUI();
+    }
+
+    function completeMission() {
+      const missionExp = Math.floor(Math.random() * 20) + 10;
+      alert('미션 완료! 경험치 ' + missionExp + ' 획득!');
+      gainExp(missionExp);
+    }
+
+    function triggerSparkle(e) {
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      const rect = e.currentTarget.getBoundingClientRect();
+      sparkle.style.left = (e.clientX - rect.left - 30) + 'px';
+      sparkle.style.top = (e.clientY - rect.top - 30) + 'px';
+      e.currentTarget.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 800);
+    }
+
+    updateUI();
+  </script>
+</body>
+</html>
