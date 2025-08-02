@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>아기 크몽이 키우기</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background: #d5ebfc;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 24px;
+    }
+    .level {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .progress {
+      width: 80%;
+      height: 20px;
+      background: #e0e0e0;
+      border-radius: 10px;
+      margin: 0 auto 20px;
+      overflow: hidden;
+    }
+    .bar {
+      height: 100%;
+      background: linear-gradient(to right, #a288f4, #9ee3f9);
+      width: 30%;
+    }
+    .image {
+      width: 750px;
+      margin: 0 auto 20px;
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .feed { background: #b4e9cc; }
+    .play { background: #ffe082; }
+    .mission { background: #b3e5fc; }
+  </style>
+</head>
+<body>
+  <h1>Level <span id="level">1</span></h1>
+  <div class="progress">
+    <div class="bar" id="expBar"></div>
+  </div>
+  <div class="image">
+    <!-- 업로드된 이미지 경로 사용 -->
+    <img src="https://i.imgur.com/IOFDXNx.png" alt="아기 크몽이" width="100%">
+  </div>
+  <div class="buttons">
+    <button class="feed" onclick="gainExp(10)">밥주기</button>
+    <button class="play" onclick="gainExp(15)">놀아주기</button>
+    <button class="mission" onclick="completeMission()">미션 확인</button>
+  </div>
+
+  <script>
+    let level = 1;
+    let exp = 30;
+    const maxExp = 100;
+
+    function updateUI() {
+      document.getElementById('expBar').style.width = exp + '%';
+      document.getElementById('level').innerText = level;
+    }
+
+    function gainExp(amount) {
+      exp += amount;
+      if (exp >= maxExp) {
+        exp = exp - maxExp;
+        level++;
+        alert('레벨 업! 현재 레벨: ' + level);
+      }
+      updateUI();
+    }
+
+    function completeMission() {
+      const missionExp = Math.floor(Math.random() * 20) + 10;
+      alert('미션 완료! 경험치 ' + missionExp + ' 획득!');
+      gainExp(missionExp);
+    }
+
+    updateUI();
+  </script>
+</body>
+</html>
